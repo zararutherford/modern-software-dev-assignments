@@ -3,6 +3,9 @@ Tip: To preview this markdown file
 - On Mac, press `Command (⌘) + Shift + V`
 - On Windows/Linux, press `Ctrl + Shift + V`
 
+## INSTRUCTIONS
+
+Fill out all of the `TODO`s in this file.
 
 ## SUBMISSION DETAILS
 

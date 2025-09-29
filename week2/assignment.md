@@ -34,7 +34,7 @@ poetry run uvicorn week2.app.main:app --reload
 ## Exercises
 For each exercise, use Cursor to help you implement the specified improvements to the current action item extractor application.
 
-As you work through the assignment, use `writeup.md` to document your progress. Be sure to include the prompts you use, as well as any changes made by you or Cursor. We will be grading based on the contents of the write-up.
+As you work through the assignment, use `writeup.md` to document your progress. Be sure to include the prompts you use, as well as any changes made by you or Cursor. We will be grading based on the contents of the write-up. Please also include comments throughout your code to document your changes. 
 
 ### TODO 1: Scaffold a New Feature
 
