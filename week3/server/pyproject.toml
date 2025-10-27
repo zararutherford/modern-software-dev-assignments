@@ -1,0 +1,17 @@
+[project]
+name = "weather-mcp-server"
+version = "1.0.0"
+description = "A Model Context Protocol server for OpenWeatherMap API"
+authors = [{name = "Your Name"}]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp>=1.0.0"
+]
+
+[project.scripts]
+weather-mcp-server = "main:main"
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
