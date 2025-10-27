@@ -9,7 +9,7 @@ Fill out all of the `TODO`s in this file.
 
 ## SUBMISSION DETAILS
 
-Name: **TODO** \
+Name: Zara Rutherford
 SUNet ID: 06625318
 Citations: Warp University 
 
