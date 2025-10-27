@@ -20,38 +20,37 @@ This assignment took me about 1 hours to do.
 ### Automation A: Warp Drive saved prompts, rules, MCP servers
 
 a. Design of each automation, including goals, inputs/outputs, steps
-Git MCP workflow (enabled): goals: branch, stage, commit, open PR notes headlessly; inputs: branch name, commit message prefix; outputs: branch refs and PR body text; steps: create branch, apply changes, run make format && make lint && make test, commit and push, generate PR notes from diff.
-Test runner prompt (saved): goals: run pytest with optional path/marker, on pass rerun with coverage; inputs: marker/path; outputs: summary, coverage; steps: pytest -q --maxfail=1 -x, then pytest --cov=backend/app --cov-report=term-missing.
+I enabled the Git MCP workflow to handle branching, committing, and preparing PR notes non‑interactively. It accepts a branch name and optional commit prefix, runs format/lint/tests, pushes, and generates a PR summary from the diff. I also added a saved “Test runner” prompt that runs pytest quietly with fail‑fast; if tests pass and pytest‑cov is available, it runs coverage and reports gaps.
 
 b. Before vs. after (i.e. manual workflow vs. automated workflow)
--efore: manual git branching/commits and ad-hoc test invocations; After: single prompt to branch/commit/prepare PR notes; single prompt to run tests + coverage consistently.
+Previously I ran ad‑hoc git and test commands; now a single prompt performs consistent branching/commit/PR steps, and one test prompt yields fast results with optional coverage.
 
 c. Autonomy levels used for each completed task (what code permissions, why, and how you supervised)
-Read/write on repo; network for pushing branches; constrained to week5/ paths; dry-run preview before final push; user confirmation gates for push/PR steps.
+I granted read/write repo access and network rights to push, constrained actions to week5/. I reviewed diffs and required green format/lint/tests before pushing or preparing PR notes.
 
 d. (if applicable) Multi‑agent notes: roles, coordination strategy, and concurrency wins/risks/failures
-MCP used to coordinate branch creation and commit boundaries across agents; wins: reduced merge conflicts; risk: concurrent edits to shared files mitigated by merge order (search → extract) and frequent pushes.
+The MCP workflow standardized branch creation and commit boundaries across agents. Conflicts were minimized by merging search first, then extraction, with frequent small pushes.
 
 e. How you used the automation (what pain point it resolves or accelerates)
-Rapid test-feedback loops and frictionless branching/PR prep, reducing context switches.
+These automations shortened feedback cycles and removed manual git overhead, reducing context switches.
 
 
 ### Automation B: Multi‑agent workflows in Warp 
 
 a. Design of each automation, including goals, inputs/outputs, steps
-Agents: A (feature/search), B (feature/extract). Goals: implement Task 2 and Task 6 concurrently. Inputs: task specs; Outputs: code changes + passing tests. Steps: create branches, implement, run saved test prompt, push via MCP, merge in order (extract after search only touches different modules; merge order enforced by MCP).
+I ran two agents on branches feature/search and feature/extract to implement Task 2 and Task 6 in parallel. Each agent developed on its own branch, used the test prompt, and pushed via MCP; I merged in the order that minimized conflicts.
 
 b. Before vs. after (i.e. manual workflow vs. automated workflow)
-Before: single-threaded implementation; After: concurrent workstreams with isolated branches using MCP for git hygiene.
+Sequential work would have lengthened the cycle; parallel branches cut time and enabled earlier integration checks.
 
 c. Autonomy levels used for each completed task (what code permissions, why, and how you supervised)
-Code write access limited to week5/; test and lint required to pass before MCP commit; human review of diffs prior to merge.
+Agents could modify week5/ only; commits required passing format/lint/tests; I reviewed diffs before merging.
 
 d. (if applicable) Multi‑agent notes: roles, coordination strategy, and concurrency wins/risks/failures
-Clear file ownership (notes router vs extract service) minimized conflicts; occasional formatting conflicts resolved automatically by ruff/black in pre-commit step.
+Clear ownership (notes router vs extraction service) avoided most conflicts, and auto‑formatting handled style differences.
 
 e. How you used the automation (what pain point it resolves or accelerates)
-Parallelization reduced cycle time and enabled faster integration testing.
+This workflow enabled concurrent progress and faster end‑to‑end testing.
 
 
 ### (Optional) Automation C: Any Additional Automations
