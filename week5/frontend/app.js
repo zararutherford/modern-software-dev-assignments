@@ -4,13 +4,35 @@ async function fetchJSON(url, options) {
   return res.json();
 }
 
+let page = 1;
+let pageSize = 5;
+let currentQuery = '';
+let currentSort = 'created_desc';
+
 async function loadNotes() {
   const list = document.getElementById('notes');
   list.innerHTML = '';
-  const notes = await fetchJSON('/notes/');
-  for (const n of notes) {
+  const meta = document.getElementById('search-meta');
+  const url = new URL('/notes/search/', window.location.origin);
+  if (currentQuery) url.searchParams.set('q', currentQuery);
+  url.searchParams.set('page', String(page));
+  url.searchParams.set('page_size', String(pageSize));
+  url.searchParams.set('sort', currentSort);
+  const res = await fetchJSON(url.toString());
+  meta.textContent = `Total: ${res.total} • Page ${res.page} / ${Math.ceil(res.total / res.page_size) || 1}`;
+  for (const n of res.items) {
     const li = document.createElement('li');
-    li.textContent = `${n.title}: ${n.content}`;
+    const tags = (n.tags || []).length ? ` [#${(n.tags || []).join(', #')}]` : '';
+    li.textContent = `${n.title}: ${n.content}${tags}`;
+    const btn = document.createElement('button');
+    btn.textContent = 'Extract';
+    btn.onclick = async () => {
+      const r = await fetchJSON(`/notes/${n.id}/extract?apply=true`, { method: 'POST' });
+      alert(`Extracted tags: ${r.tags.join(', ')}\nAction items: ${r.action_items.join('\n')}`);
+      loadNotes();
+      loadActions();
+    };
+    li.appendChild(btn);
     list.appendChild(li);
   }
 }
@@ -59,6 +81,28 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     e.target.reset();
     loadActions();
+  });
+
+  document.getElementById('search-btn').addEventListener('click', (e) => {
+    e.preventDefault();
+    currentQuery = document.getElementById('search-q').value.trim();
+    currentSort = document.getElementById('search-sort').value;
+    page = 1;
+    loadNotes();
+  });
+
+  document.getElementById('prev-page').addEventListener('click', (e) => {
+    e.preventDefault();
+    if (page > 1) {
+      page -= 1;
+      loadNotes();
+    }
+  });
+
+  document.getElementById('next-page').addEventListener('click', (e) => {
+    e.preventDefault();
+    page += 1;
+    loadNotes();
   });
 
   loadNotes();

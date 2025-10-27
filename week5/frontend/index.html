@@ -17,7 +17,20 @@
           <input id="note-content" placeholder="Content" required />
           <button type="submit">Add</button>
         </form>
+        <div class="row">
+          <input id="search-q" placeholder="Search notes" />
+          <select id="search-sort">
+            <option value="created_desc">Newest</option>
+            <option value="title_asc">Title A→Z</option>
+          </select>
+          <button id="search-btn">Search</button>
+        </div>
+        <div id="search-meta"></div>
         <ul id="notes"></ul>
+        <div class="row">
+          <button id="prev-page">Prev</button>
+          <button id="next-page">Next</button>
+        </div>
       </section>
 
       <section>

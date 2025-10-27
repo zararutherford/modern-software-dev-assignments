@@ -1,7 +1,15 @@
-from sqlalchemy import Boolean, Column, Integer, String, Text
-from sqlalchemy.orm import declarative_base
+from sqlalchemy import Boolean, Column, DateTime, ForeignKey, Integer, String, Table, Text, func
+from sqlalchemy.orm import declarative_base, relationship
 
 Base = declarative_base()
+
+# Association table for many-to-many Note <-> Tag
+note_tags = Table(
+    "note_tags",
+    Base.metadata,
+    Column("note_id", ForeignKey("notes.id"), primary_key=True),
+    Column("tag_id", ForeignKey("tags.id"), primary_key=True),
+)
 
 
 class Note(Base):
@@ -10,6 +18,18 @@ class Note(Base):
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(200), nullable=False)
     content = Column(Text, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
+
+    tags = relationship("Tag", secondary=note_tags, back_populates="notes")
+
+
+class Tag(Base):
+    __tablename__ = "tags"
+
+    id = Column(Integer, primary_key=True, index=True)
+    name = Column(String(64), unique=True, nullable=False, index=True)
+
+    notes = relationship("Note", secondary=note_tags, back_populates="tags")
 
 
 class ActionItem(Base):
@@ -18,3 +38,4 @@ class ActionItem(Base):
     id = Column(Integer, primary_key=True, index=True)
     description = Column(Text, nullable=False)
     completed = Column(Boolean, default=False, nullable=False)
+    created_at = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
