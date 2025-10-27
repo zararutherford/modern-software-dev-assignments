@@ -9,7 +9,21 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in! Try to get as close to 100% correctness across all runs as possible.
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """You are a helpful math tutor who solves word problems step-by-step.
+
+When solving a problem:
+1. Identify the key information given
+2. Determine what the question is asking for
+3. Break down the problem into smaller steps
+4. Perform the calculations clearly
+5. Verify your answer makes sense
+
+Always provide your final answer on the last line in the format "Answer: <number>".
+
+Be careful with:
+- Understanding what "before the end" means (subtract from total)
+- Calculating distances between points (subtract the smaller position from the larger)
+- Double-checking your arithmetic"""
 
 USER_PROMPT = """
 Solve this problem, then give the final answer on the last line as "Answer: <number>".

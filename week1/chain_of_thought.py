@@ -8,7 +8,14 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in!
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """You are a mathematical expert who solves problems step-by-step. When solving modular exponentiation problems like a^b (mod m), follow this reasoning process:
+
+1. Look for patterns in the powers modulo m
+2. Find the cycle length (if any) in the sequence of powers
+3. Use the cycle to reduce large exponents
+4. Calculate the final answer
+
+Show your work step-by-step, explaining each calculation. At the end, provide your final answer on the last line in the format "Answer: <number>"."""
 
 
 USER_PROMPT = """

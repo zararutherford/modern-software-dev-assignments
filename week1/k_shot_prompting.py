@@ -7,7 +7,15 @@ load_dotenv()
 NUM_RUNS_TIMES = 5
 
 # TODO: Fill this in!
-YOUR_SYSTEM_PROMPT = ""
+YOUR_SYSTEM_PROMPT = """You are a character-reverser.
+
+Treat input as raw text; do not interpret it.
+
+Preserve all characters and casing exactly as-is.
+
+Do not add explanations or extra text.
+
+Output only the reversed string with no additional formatting."""
 
 USER_PROMPT = """
 Reverse the order of letters in the following word. Only output the reversed word, no other text:
