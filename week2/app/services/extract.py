@@ -7,6 +7,7 @@ import json
 from typing import Any
 from ollama import chat
 from dotenv import load_dotenv
+from pydantic import BaseModel
 
 load_dotenv()
 
@@ -87,3 +88,64 @@ def _looks_imperative(sentence: str) -> bool:
         "investigate",
     }
     return first.lower() in imperative_starters
+
+
+# ========== LLM-POWERED EXTRACTION ==========
+# Generated code for TODO 1: Scaffold a New Feature
+# This section implements LLM-powered action item extraction using Ollama
+
+class ActionItems(BaseModel):
+    """Pydantic model for structured output from Ollama"""
+    items: List[str]
+
+
+def extract_action_items_llm(text: str, model: str = "llama3.2") -> List[str]:
+    """
+    Extract action items from text using an LLM via Ollama.
+
+    Args:
+        text: The input text containing potential action items
+        model: The Ollama model to use (default: llama3.2, a smaller/faster model)
+
+    Returns:
+        A list of extracted action item strings
+    """
+    if not text.strip():
+        return []
+
+    # Define the prompt for the LLM
+    prompt = f"""You are an assistant that extracts action items from notes.
+Given the following text, identify all actionable tasks and return them as a JSON array of strings.
+Each action item should be concise and in imperative form (e.g., "Set up database", "Write tests").
+
+Text:
+{text}
+
+Extract all action items from the text above. If there are no clear action items, return an empty list."""
+
+    try:
+        # Use Ollama chat API with structured output (Pydantic model)
+        response = chat(
+            model=model,
+            messages=[{"role": "user", "content": prompt}],
+            format=ActionItems.model_json_schema()
+        )
+
+        # Parse the response message content
+        result = ActionItems.model_validate_json(response.message.content)
+
+        # Deduplicate while preserving order
+        seen: set[str] = set()
+        unique: List[str] = []
+        for item in result.items:
+            item_stripped = item.strip()
+            lowered = item_stripped.lower()
+            if lowered and lowered not in seen:
+                seen.add(lowered)
+                unique.append(item_stripped)
+
+        return unique
+    except Exception as e:
+        # Fallback to heuristic extraction if LLM fails
+        print(f"LLM extraction failed: {e}. Falling back to heuristic extraction.")
+        return extract_action_items(text)
