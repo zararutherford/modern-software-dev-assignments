@@ -1,0 +1,77 @@
+{% extends 'clients/base.html' %}
+
+{% block title %}{{ client.full_name }} - Immigration CRM{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+        <h2>{{ client.full_name }}</h2>
+        <div>
+            <a href="{% url 'client_update' client.pk %}" class="btn">Edit</a>
+            <a href="{% url 'client_delete' client.pk %}" class="btn btn-danger">Delete</a>
+        </div>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem;">
+        <div>
+            <h3 style="margin-bottom: 1rem; color: #2c3e50;">Personal Information</h3>
+            <div class="form-group">
+                <strong>Full Name:</strong><br>
+                {{ client.full_name }}
+            </div>
+            <div class="form-group">
+                <strong>Email:</strong><br>
+                <a href="mailto:{{ client.email }}">{{ client.email }}</a>
+            </div>
+            <div class="form-group">
+                <strong>Phone:</strong><br>
+                {{ client.phone|default:"Not provided" }}
+            </div>
+            <div class="form-group">
+                <strong>Country of Origin:</strong><br>
+                {{ client.country_of_origin }}
+            </div>
+        </div>
+
+        <div>
+            <h3 style="margin-bottom: 1rem; color: #2c3e50;">Case Information</h3>
+            <div class="form-group">
+                <strong>Case Number:</strong><br>
+                {{ client.case_number }}
+            </div>
+            <div class="form-group">
+                <strong>Visa Type:</strong><br>
+                {{ client.get_visa_type_display }}
+            </div>
+            <div class="form-group">
+                <strong>Current Status:</strong><br>
+                <span class="badge badge-status">{{ client.get_current_status_display }}</span>
+            </div>
+            <div class="form-group">
+                <strong>Filing Date:</strong><br>
+                {{ client.filing_date|date:"F d, Y"|default:"Not filed yet" }}
+            </div>
+            <div class="form-group">
+                <strong>Priority Date:</strong><br>
+                {{ client.priority_date|date:"F d, Y"|default:"Not set" }}
+            </div>
+        </div>
+    </div>
+
+    {% if client.notes %}
+    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+        <h3 style="margin-bottom: 1rem; color: #2c3e50;">Notes</h3>
+        <p style="white-space: pre-wrap;">{{ client.notes }}</p>
+    </div>
+    {% endif %}
+
+    <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #ddd; color: #666; font-size: 0.875rem;">
+        <p>Created: {{ client.created_at|date:"F d, Y g:i A" }}</p>
+        <p>Last Updated: {{ client.updated_at|date:"F d, Y g:i A" }}</p>
+    </div>
+
+    <div style="margin-top: 2rem;">
+        <a href="{% url 'client_list' %}" class="btn btn-secondary">Back to List</a>
+    </div>
+</div>
+{% endblock %}

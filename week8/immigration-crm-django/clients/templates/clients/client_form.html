@@ -1,0 +1,114 @@
+{% extends 'clients/base.html' %}
+
+{% block title %}{{ action }} Client - Immigration CRM{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>{{ action }} Client</h2>
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">First Name *</label>
+                {{ form.first_name }}
+                {% if form.first_name.errors %}
+                    <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.first_name.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">Last Name *</label>
+                {{ form.last_name }}
+                {% if form.last_name.errors %}
+                    <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.last_name.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">Email *</label>
+                {{ form.email }}
+                {% if form.email.errors %}
+                    <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.email.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.phone.id_for_label }}">Phone</label>
+                {{ form.phone }}
+                {% if form.phone.errors %}
+                    <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.phone.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.case_number.id_for_label }}">Case Number *</label>
+            {{ form.case_number }}
+            {% if form.case_number.errors %}
+                <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.case_number.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <div class="form-group">
+                <label for="{{ form.visa_type.id_for_label }}">Visa Type *</label>
+                {{ form.visa_type }}
+                {% if form.visa_type.errors %}
+                    <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.visa_type.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.current_status.id_for_label }}">Current Status *</label>
+                {{ form.current_status }}
+                {% if form.current_status.errors %}
+                    <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.current_status.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.country_of_origin.id_for_label }}">Country of Origin *</label>
+            {{ form.country_of_origin }}
+            {% if form.country_of_origin.errors %}
+                <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.country_of_origin.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;">
+            <div class="form-group">
+                <label for="{{ form.filing_date.id_for_label }}">Filing Date</label>
+                {{ form.filing_date }}
+                {% if form.filing_date.errors %}
+                    <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.filing_date.errors }}</div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.priority_date.id_for_label }}">Priority Date</label>
+                {{ form.priority_date }}
+                {% if form.priority_date.errors %}
+                    <div style="color: #e74c3c; font-size: 0.875rem;">{{ form.priority_date.errors }}</div>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="{{ form.notes.id_for_label }}">Notes</label>
+            {{ form.notes }}
+            {% if form.notes.errors %}
+                <div style="color: #e74c3c; font-size: 0.875rm;">{{ form.notes.errors }}</div>
+            {% endif %}
+        </div>
+
+        <div style="margin-top: 2rem;">
+            <button type="submit" class="btn">{{ action }} Client</button>
+            <a href="{% url 'client_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

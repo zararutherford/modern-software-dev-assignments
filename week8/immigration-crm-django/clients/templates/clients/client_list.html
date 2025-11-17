@@ -1,0 +1,48 @@
+{% extends 'clients/base.html' %}
+
+{% block title %}Client List - Immigration CRM{% endblock %}
+
+{% block content %}
+<div class="card">
+    <h2>Immigration Clients</h2>
+    <p style="color: #666; margin-bottom: 1.5rem;">Manage all immigration cases and client information</p>
+
+    {% if clients %}
+    <table>
+        <thead>
+            <tr>
+                <th>Case Number</th>
+                <th>Client Name</th>
+                <th>Visa Type</th>
+                <th>Status</th>
+                <th>Country</th>
+                <th>Filing Date</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+            <tr>
+                <td><strong>{{ client.case_number }}</strong></td>
+                <td>{{ client.full_name }}</td>
+                <td>{{ client.get_visa_type_display }}</td>
+                <td>
+                    <span class="badge badge-status">{{ client.get_current_status_display }}</span>
+                </td>
+                <td>{{ client.country_of_origin }}</td>
+                <td>{{ client.filing_date|date:"M d, Y"|default:"Not filed" }}</td>
+                <td>
+                    <a href="{% url 'client_detail' client.pk %}" class="btn" style="padding: 0.25rem 0.75rem; font-size: 0.875rem;">View</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <div style="text-align: center; padding: 3rem; color: #666;">
+        <p style="font-size: 1.125rem; margin-bottom: 1rem;">No clients found</p>
+        <a href="{% url 'client_create' %}" class="btn">Add Your First Client</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
