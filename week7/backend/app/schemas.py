@@ -44,3 +44,17 @@ class ActionItemPatch(BaseModel):
     completed: bool | None = None
 
 
+class TagCreate(BaseModel):
+    name: str = Field(..., min_length=1, max_length=50, description="Tag name")
+
+
+class TagRead(BaseModel):
+    id: int
+    name: str
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        from_attributes = True
+
+
