@@ -22,3 +22,28 @@ def test_create_complete_list_and_patch_action_item(client):
     assert patched["description"] == "Updated"
 
 
+def test_delete_action_item(client):
+    payload = {"description": "To be deleted"}
+    r = client.post("/action-items/", json=payload)
+    assert r.status_code == 201
+    item_id = r.json()["id"]
+
+    r = client.delete(f"/action-items/{item_id}")
+    assert r.status_code == 204
+
+    r = client.get(f"/action-items/")
+    items = r.json()
+    assert item_id not in [item["id"] for item in items]
+
+
+def test_delete_nonexistent_action_item(client):
+    r = client.delete("/action-items/99999")
+    assert r.status_code == 404
+
+
+def test_validation_empty_description(client):
+    payload = {"description": ""}
+    r = client.post("/action-items/", json=payload)
+    assert r.status_code == 422
+
+
