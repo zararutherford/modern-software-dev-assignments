@@ -19,6 +19,7 @@ This assignment took me about 2 hours to do.
 ## Task 1: Add more endpoints and validations
 a. Links to relevant commits/issues
 Commit: 48d7320
+Link to PR: https://app.graphite.com/github/pr/zararutherford/modern-software-dev-assignments/2
 
 b. PR Description
 Added DELETE endpoints for notes and action items (returns 204 on success, 404 if not found). Implemented Pydantic Field validators with min_length=1 on all text inputs and max_length=200 on note titles. Added 7 tests for DELETE operations and validation edge cases (empty strings, too-long titles).
@@ -29,6 +30,7 @@ This PR adds solid DELETE functionality and input validation. The implementation
 ## Task 2: Extend extraction logic
 a. Links to relevant commits/issues
 Commit: e6f9d36
+Link to PR: https://app.graphite.com/github/pr/zararutherford/modern-software-dev-assignments/3
 
 b. PR Description
 Extended action item extraction with regex patterns for checkboxes ([x], [ ]), priority markers (HIGH:, P0:), @mentions, and due date keywords (by, due, deadline). Improved list marker handling to strip -, *, •, and numbered lists. Added 5 test functions covering all new patterns. All 16 tests pass.
@@ -39,6 +41,7 @@ This is a well-structured PR with strong test coverage for the new extraction pa
 ## Task 3: Try adding a new model and relationships
 a. Links to relevant commits/issues
 Commit: 22a1ee7
+Link to PR: https://app.graphite.com/github/pr/zararutherford/modern-software-dev-assignments/4
 
 b. PR Description
 Created Tag model with many-to-many relationship to Notes using association table note_tags. Added unique constraint on tag names (max 50 chars). Built REST API for tags with CRUD operations plus endpoints to add/remove tags from notes. Added 5 tests covering tag operations and relationships. All 21 tests pass.
@@ -49,6 +52,7 @@ This PR implements a clean many-to-many relationship between Notes and Tags with
 ## Task 4: Improve tests for pagination and sorting
 a. Links to relevant commits/issues
 Commit: e20d4a4
+Link to PR: https://app.graphite.com/github/pr/zararutherford/modern-software-dev-assignments/5
 
 b. PR Description
 Created comprehensive test suite for pagination and sorting edge cases. Tests cover: skip beyond available items, limit boundaries (0, 200, 500), sort order verification on multiple fields (ascending/descending), filtering + pagination combinations, and invalid sort fields. Added 9 test functions across notes, action-items, and tags. All 30 tests pass.
